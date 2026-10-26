@@ -1,50 +1,47 @@
-# Activity Directory Practical
+# Activity Directory
 
-## DOM Interaction and Events for Beginners
+A beginner-friendly front-end practical that demonstrates DOM selection, form events, filtering logic, and CSS state management using HTML, CSS, and JavaScript.
 
-In this practical, you will build an **Activity Directory** webpage.
+---
 
-The webpage will allow users to:
+## Overview
+
+This project implements an Activity Directory where users can:
 
 - Search for activities using a keyword.
 - Filter activities by category.
-- Clear the search and show all activities again.
-- See how many activities are currently visible.
+- Combine keyword and category filters.
+- Reset all filters using a Clear button.
+- View the number of matching activities.
 
-This practical teaches the relationship between:
+The project demonstrates the relationship between:
 
-- **HTML** — creates the page structure and content.
-- **CSS** — controls the appearance of the page.
-- **JavaScript** — responds to user actions and changes the page.
-
----
-
-## Learning Outcomes
-
-By the end of this practical, you should be able to:
-
-- Select HTML elements with JavaScript.
-- Explain what the DOM is.
-- Use `querySelector()` and `querySelectorAll()`.
-- Use `forEach()` to work with multiple elements.
-- Listen for `submit`, `change`, and `click` events.
-- Read values from an input field and dropdown menu.
-- Use conditions to decide whether an activity should be shown.
-- Add and remove a CSS class with `classList.toggle()`.
-- Update visible text with `textContent`.
-- Debug an interaction step by step.
+| Technology | Responsibility |
+|---|---|
+| HTML | Provides the page structure, controls, and activity data. |
+| CSS | Defines the visual presentation, including visible and hidden states. |
+| JavaScript | Reads user input, applies filtering logic, and updates the page. |
 
 ---
 
-## Before You Begin
+## Learning Objectives
 
-Create a folder named:
+After completing this practical, you should be able to:
 
-```text
-activity-directory
-```
+- Select single and multiple HTML elements using JavaScript.
+- Explain the purpose of the Document Object Model (DOM).
+- Use `querySelector()` and `querySelectorAll()` appropriately.
+- Use `forEach()` to process a collection of elements.
+- Attach event listeners using `submit`, `change`, and `click`.
+- Read values from text inputs and dropdown menus.
+- Use Boolean logic to determine whether an item should be shown.
+- Update CSS classes using `classList.toggle()`.
+- Update page text safely using `textContent`.
+- Debug DOM interactions systematically.
 
-Inside the folder, create these files:
+---
+
+## Project Structure
 
 ```text
 activity-directory/
@@ -54,46 +51,59 @@ activity-directory/
 └── README.md
 ```
 
-Each file has a different role:
-
-| File | Purpose |
+| File | Description |
 |---|---|
-| `index.html` | Creates the content and structure of the webpage |
-| `style.css` | Controls the appearance of the webpage |
-| `app.js` | Adds interaction and behaviour |
-| `README.md` | Explains the practical and how the code works |
+| `index.html` | Defines the webpage content and structure. |
+| `style.css` | Defines the visual layout and display states. |
+| `app.js` | Adds filtering and event-driven behaviour. |
+| `README.md` | Documents the project and explains the key concepts. |
 
 ---
 
-# Part 1: The Main Interaction Pattern
+## Application Workflow
 
-Most interactive webpages follow this pattern:
+The application follows this interaction sequence:
 
-1. **Select** — Find HTML elements using JavaScript.
-2. **Listen** — Wait for a user action.
-3. **Read** — Get the user’s current input.
-4. **Decide** — Work out what should happen.
-5. **Update** — Change text, classes, or elements on the page.
-6. **Check** — Confirm that the result is correct.
+```text
+Select → Listen → Read → Decide → Update → Check
+```
 
-For this practical:
-
-| Step | Example |
+| Stage | Application behaviour |
 |---|---|
-| Select | Find the search input and activity cards |
-| Listen | Wait for the user to submit the form |
-| Read | Read the keyword and chosen category |
-| Decide | Check whether each card matches both filters |
-| Update | Hide cards that do not match |
-| Check | Confirm that the status count matches visible cards |
+| Select | JavaScript locates the form, controls, status message, and cards. |
+| Listen | JavaScript waits for form submission, category changes, or Clear button clicks. |
+| Read | JavaScript reads the keyword and selected category. |
+| Decide | JavaScript checks whether each card matches both filters. |
+| Update | JavaScript hides non-matching cards and updates the result count. |
+| Check | The visible cards and status message should agree. |
 
 ---
 
-# Part 2: Create the HTML
+# Setup Instructions
 
-## Step 1: Add `index.html`
+## Prerequisites
 
-Copy the following code into `index.html`.
+You need:
+
+- A modern web browser, such as Google Chrome, Microsoft Edge, Firefox, or Safari.
+- A code editor, such as Visual Studio Code.
+- Basic familiarity with HTML, CSS, and JavaScript files.
+
+No external libraries or installations are required.
+
+## Run the Project
+
+1. Download or create the project files.
+2. Open the `activity-directory` folder in a code editor.
+3. Open `index.html` in a web browser.
+4. Use the search field, category dropdown, and buttons to test the application.
+5. Open Developer Tools with `F12` to inspect the Console when debugging.
+
+---
+
+# Implementation
+
+## HTML: `index.html`
 
 ```html
 <!DOCTYPE html>
@@ -169,82 +179,22 @@ Copy the following code into `index.html`.
 </html>
 ```
 
----
+### HTML Notes
 
-## Understanding the HTML
-
-### What is an `id`?
-
-An `id` is a unique name for one element.
-
-```html
-<input id="keyword">
-```
-
-JavaScript can find this element with:
-
-```js
-document.querySelector("#keyword");
-```
-
-The `#` means “select an element by its `id`.”
-
-Each `id` should be used only once on a page.
-
----
-
-### What is a `class`?
-
-A class is a label that can be shared by more than one element.
-
-```html
-<article class="activity-card sports">
-```
-
-This activity card has two classes:
-
-- `activity-card` identifies it as an activity card.
-- `sports` identifies its category.
-
-JavaScript can find every activity card with:
-
-```js
-document.querySelectorAll(".activity-card");
-```
-
-The `.` means “select an element by its class.”
-
----
-
-### What is `defer`?
-
-This line loads JavaScript:
+- An `id` identifies one unique element, such as `keyword` or `search-form`.
+- A `class` groups elements with shared behaviour or styling, such as `activity-card`.
+- Each activity has a category class, such as `sports`, `technology`, or `arts`.
+- The `defer` attribute ensures that `app.js` runs only after HTML has been parsed.
 
 ```html
 <script src="app.js" defer></script>
 ```
 
-The `defer` attribute tells the browser:
-
-> Load `app.js`, but wait until the HTML has been read before running it.
-
-Without `defer`, JavaScript may run too early. It may try to find an HTML element before the browser has created it.
-
-When JavaScript cannot find an element, it may return:
-
-```js
-null
-```
-
-`null` means that no matching element was found.
+Without `defer`, JavaScript may run before the browser has created the target elements, causing selectors to return `null`.
 
 ---
 
-# Part 3: Add the CSS
-
-## Step 2: Add `style.css`
-
-Copy the following code into `style.css`.
+## CSS: `style.css`
 
 ```css
 * {
@@ -310,11 +260,9 @@ button {
 }
 ```
 
----
+### CSS State Management
 
-## Understanding CSS states
-
-The most important CSS rule in this practical is:
+The `.is-hidden` class represents a visual state.
 
 ```css
 .is-hidden {
@@ -322,37 +270,11 @@ The most important CSS rule in this practical is:
 }
 ```
 
-`display: none` hides an element from the page.
-
-At first, an activity card looks like this:
-
-```html
-<article class="activity-card sports">
-```
-
-When JavaScript hides it, the card becomes:
-
-```html
-<article class="activity-card sports is-hidden">
-```
-
-Because the card has the `is-hidden` class, CSS does not display it.
-
-The three technologies have different jobs:
-
-| Technology | Responsibility |
-|---|---|
-| HTML | Creates the activity card |
-| JavaScript | Adds or removes `is-hidden` |
-| CSS | Hides an element with `is-hidden` |
+JavaScript does not directly style every hidden card. Instead, it adds or removes the `is-hidden` class. CSS then determines that an element with this class should not be displayed.
 
 ---
 
-# Part 4: Select HTML Elements
-
-## Step 3: Start `app.js`
-
-Copy the following code into `app.js`.
+## JavaScript: `app.js`
 
 ```js
 const form = document.querySelector("#search-form");
@@ -362,67 +284,216 @@ const clearButton = document.querySelector("#clear-button");
 const status = document.querySelector("#status");
 
 const cards = document.querySelectorAll(".activity-card");
+
+function filterActivities(query, category) {
+  let visibleCount = 0;
+
+  cards.forEach(function (card) {
+    const cardText = card.textContent.toLowerCase();
+
+    const matchesKeyword = cardText.includes(query.toLowerCase());
+
+    const matchesCategory =
+      category === "all" || card.classList.contains(category);
+
+    const shouldShow = matchesKeyword && matchesCategory;
+
+    card.classList.toggle("is-hidden", !shouldShow);
+
+    if (shouldShow) {
+      visibleCount = visibleCount + 1;
+    }
+  });
+
+  status.textContent = visibleCount + " activities found";
+}
+
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const query = keywordInput.value.trim();
+  const category = categorySelect.value;
+
+  filterActivities(query, category);
+});
+
+categorySelect.addEventListener("change", function () {
+  const query = keywordInput.value.trim();
+  const category = categorySelect.value;
+
+  filterActivities(query, category);
+});
+
+clearButton.addEventListener("click", function () {
+  keywordInput.value = "";
+  categorySelect.value = "all";
+
+  filterActivities("", "all");
+});
 ```
 
 ---
 
-## What is the DOM?
+# Key Concepts
 
-DOM means **Document Object Model**.
+## DOM Selection
 
-The browser converts your HTML page into a live structure that JavaScript can read and change.
+The DOM is the browser’s live representation of the HTML page.
 
-JavaScript can use the DOM to:
-
-- Read text.
-- Read user input.
-- Change visible text.
-- Add or remove CSS classes.
-- Create new elements.
-- Remove elements.
-
-For example, HTML creates the input field:
-
-```html
-<input id="keyword">
-```
-
-JavaScript selects it:
-
-```js
-const keywordInput = document.querySelector("#keyword");
-```
-
-The variable `keywordInput` now refers to the actual text input on the webpage.
-
----
-
-## `querySelector()` versus `querySelectorAll()`
-
-Use `querySelector()` when you expect to find one element.
+Use `querySelector()` to find one element:
 
 ```js
 const status = document.querySelector("#status");
 ```
 
-It returns:
-
-- One element if found.
-- `null` if no element matches.
-
-Use `querySelectorAll()` when you expect to find multiple elements.
+Use `querySelectorAll()` to find multiple elements:
 
 ```js
 const cards = document.querySelectorAll(".activity-card");
 ```
 
-It returns a **NodeList**, which is a collection of matching elements.
+`querySelectorAll()` returns a NodeList. A NodeList may contain zero or more elements, and `forEach()` processes each element individually.
+
+```js
+cards.forEach(function (card) {
+  console.log(card.textContent);
+});
+```
 
 ---
 
-## Check your selections
+## Event Handling
 
-Temporarily add this below your selection code.
+An event is an action that occurs in the browser.
+
+| Event | Used on | Purpose |
+|---|---|---|
+| `submit` | Form | Performs the search, including when the user presses Enter. |
+| `change` | Category dropdown | Filters when the selected category changes. |
+| `click` | Clear button | Resets the filters. |
+| `input` | Text input | Optional event for live filtering while the user types. |
+| `keydown` | Document | Optional event for keyboard shortcuts, such as Escape. |
+
+The form submit listener uses `event.preventDefault()` to stop the browser from reloading the page.
+
+```js
+event.preventDefault();
+```
+
+---
+
+## Reading Values
+
+Different elements use different properties.
+
+| Element | Property | Example result |
+|---|---|---|
+| Text input | `.value` | `"coding"` |
+| Dropdown menu | `.value` | `"technology"` |
+| Checkbox | `.checked` | `true` or `false` |
+| Ordinary element | `.textContent` | Visible text inside the element |
+
+Examples:
+
+```js
+const query = keywordInput.value.trim();
+```
+
+```js
+const category = categorySelect.value;
+```
+
+---
+
+## Filtering Logic
+
+Each card must meet two conditions:
+
+1. Its text contains the keyword.
+2. Its category matches the selected category.
+
+```js
+const matchesKeyword = cardText.includes(query.toLowerCase());
+```
+
+```js
+const matchesCategory =
+  category === "all" || card.classList.contains(category);
+```
+
+The logical AND operator, `&&`, requires both conditions to be true.
+
+```js
+const shouldShow = matchesKeyword && matchesCategory;
+```
+
+| Keyword match | Category match | Card shown |
+|---|---|---|
+| `true` | `true` | Yes |
+| `true` | `false` | No |
+| `false` | `true` | No |
+| `false` | `false` | No |
+
+---
+
+## Updating the Interface
+
+The following statement adds or removes the `is-hidden` class.
+
+```js
+card.classList.toggle("is-hidden", !shouldShow);
+```
+
+- If `shouldShow` is `true`, the card remains visible.
+- If `shouldShow` is `false`, JavaScript adds `is-hidden`.
+- CSS hides any card that has the `is-hidden` class.
+
+The status message updates with `textContent`.
+
+```js
+status.textContent = visibleCount + " activities found";
+```
+
+`textContent` should be used for plain text because it does not interpret the text as HTML.
+
+---
+
+# Functional Requirements
+
+The completed application must satisfy all of the following requirements.
+
+| ID | Requirement |
+|---|---|
+| FR-01 | Show all activities when the keyword is empty and All categories is selected. |
+| FR-02 | Show only activities that match a keyword search. |
+| FR-03 | Show zero activities and an accurate status message when no activity matches. |
+| FR-04 | Show only activities that match the selected category. |
+| FR-05 | Apply both keyword and category filters together. |
+| FR-06 | Reset the keyword, category, visible cards, and status when Clear is clicked. |
+
+---
+
+# Test Cases
+
+Perform the following checks before submitting the practical.
+
+| Test | User action | Expected result |
+|---|---|---|
+| Initial state | Load the page | Six activities are visible. |
+| Empty filter | Keep the keyword empty and choose All categories | All activities are visible. |
+| Keyword filter | Enter `coding` and submit the form | Only Coding Workshop is visible. |
+| No match | Enter `swimming` and submit the form | No cards are visible and the status reports `0 activities found`. |
+| Category filter | Select Sports | Basketball Club and Badminton Training are visible. |
+| Combined filter | Enter `robot`, select Technology, then submit | Only Robotics Challenge is visible. |
+| Reset | Click Clear | The input is empty, category is All categories, and all activities are visible. |
+
+---
+
+# Debugging Guide
+
+Debug the interaction in the same order that the application works.
+
+## 1. Verify selection
 
 ```js
 console.log(form);
@@ -433,619 +504,10 @@ console.log(status);
 console.log(cards.length);
 ```
 
-Open `index.html` in a browser.
+- A single selector should not return `null`.
+- The NodeList length should match the number of activity cards.
 
-Then open the browser Console:
-
-1. Press `F12`, or right-click the webpage.
-2. Select **Inspect**.
-3. Select the **Console** tab.
-
-Expected result:
-
-- The first five lines should display HTML elements.
-- None of them should be `null`.
-- The final line should show `6`.
-
-```text
-6
-```
-
-If you see `null`, check whether the HTML `id` and JavaScript selector match exactly.
-
-For example, these must match:
-
-```html
-<form id="search-form">
-```
-
-```js
-document.querySelector("#search-form");
-```
-
-Remove the temporary `console.log()` statements once you have confirmed that your selections work.
-
----
-
-# Part 5: Work with Multiple Cards
-
-## Step 4: Learn `forEach()`
-
-There are six activity cards. JavaScript must check each card individually.
-
-Try this temporary code:
-
-```js
-cards.forEach(function (card) {
-  console.log(card.textContent);
-});
-```
-
-Refresh the page and look in the Console.
-
-You should see text from all six activity cards.
-
----
-
-## What does `forEach()` do?
-
-`forEach()` means:
-
-> Repeat the same instructions for every item in a collection.
-
-In this example:
-
-```js
-cards.forEach(function (card) {
-```
-
-- `cards` is the collection of all activity cards.
-- `forEach()` goes through every card.
-- `card` represents one current activity card.
-
-For example, when JavaScript reaches the Coding Workshop card, this line:
-
-```js
-card.textContent
-```
-
-reads its text.
-
-Remove the temporary code after you understand how it works.
-
----
-
-# Part 6: Filter the Activities
-
-## Step 5: Add the filtering function
-
-Add this code below the element selection code.
-
-```js
-function filterActivities(query, category) {
-  let visibleCount = 0;
-
-  cards.forEach(function (card) {
-    const cardText = card.textContent.toLowerCase();
-
-    const matchesKeyword = cardText.includes(query.toLowerCase());
-
-    const matchesCategory =
-      category === "all" || card.classList.contains(category);
-
-    const shouldShow = matchesKeyword && matchesCategory;
-
-    card.classList.toggle("is-hidden", !shouldShow);
-
-    if (shouldShow) {
-      visibleCount = visibleCount + 1;
-    }
-  });
-
-  status.textContent = visibleCount + " activities found";
-}
-```
-
-This function checks every activity card and decides whether it should be shown or hidden.
-
----
-
-## Function parameters
-
-This function receives two values:
-
-```js
-function filterActivities(query, category) {
-```
-
-| Parameter | Meaning |
-|---|---|
-| `query` | The text entered by the user |
-| `category` | The category selected by the user |
-
-For example:
-
-```js
-filterActivities("robot", "technology");
-```
-
-This means:
-
-- Search for the word `robot`.
-- Show only activities in the `technology` category.
-
----
-
-## Start the visible count
-
-```js
-let visibleCount = 0;
-```
-
-This variable counts how many cards remain visible.
-
-It starts at `0` because JavaScript has not checked any cards yet.
-
-The keyword `let` is used because the value changes as JavaScript finds matching activity cards.
-
----
-
-## Read the text from each card
-
-```js
-const cardText = card.textContent.toLowerCase();
-```
-
-`textContent` reads text inside an HTML element.
-
-For the Robotics Challenge card, it might return:
-
-```text
-Robotics Challenge Build and program a small robot with your team.
-```
-
-`toLowerCase()` changes the text to lowercase:
-
-```text
-robotics challenge build and program a small robot with your team.
-```
-
-This allows the user to search without worrying about capital letters.
-
-For example:
-
-```js
-"Robotics Challenge".toLowerCase()
-```
-
-becomes:
-
-```text
-robotics challenge
-```
-
----
-
-## Check whether the keyword matches
-
-```js
-const matchesKeyword = cardText.includes(query.toLowerCase());
-```
-
-`includes()` asks whether one piece of text contains another.
-
-```js
-"robotics challenge".includes("robot")
-```
-
-returns:
-
-```js
-true
-```
-
-```js
-"robotics challenge".includes("coding")
-```
-
-returns:
-
-```js
-false
-```
-
-The result is stored in `matchesKeyword`.
-
-It will always be either:
-
-```js
-true
-```
-
-or:
-
-```js
-false
-```
-
----
-
-## Check whether the category matches
-
-```js
-const matchesCategory =
-  category === "all" || card.classList.contains(category);
-```
-
-This checks the category of the current activity card.
-
-The operator `===` means “is exactly equal to.”
-
-```js
-category === "all"
-```
-
-is true when the user has selected **All categories**.
-
-The operator `||` means **OR**.
-
-The whole statement means:
-
-> The category matches if the selected category is `all`, OR the card has the selected category class.
-
-For this card:
-
-```html
-<article class="activity-card sports">
-```
-
-this code returns `true`:
-
-```js
-card.classList.contains("sports");
-```
-
-But this code returns `false`:
-
-```js
-card.classList.contains("technology");
-```
-
----
-
-## Decide whether to show the card
-
-```js
-const shouldShow = matchesKeyword && matchesCategory;
-```
-
-The operator `&&` means **AND**.
-
-The card should show only when both conditions are true:
-
-- The keyword matches.
-- The category matches.
-
-| Keyword matches | Category matches | Show the card? |
-|---|---|---|
-| `true` | `true` | Yes |
-| `true` | `false` | No |
-| `false` | `true` | No |
-| `false` | `false` | No |
-
-For example, searching for `robot` and choosing Technology shows Robotics Challenge because both conditions are true.
-
----
-
-## Hide or show the card
-
-```js
-card.classList.toggle("is-hidden", !shouldShow);
-```
-
-This line adds or removes the `is-hidden` class.
-
-The `!` symbol means **NOT**.
-
-| `shouldShow` | `!shouldShow` | Result |
-|---|---|---|
-| `true` | `false` | Remove `is-hidden`; show the card |
-| `false` | `true` | Add `is-hidden`; hide the card |
-
-The CSS rule then hides cards with the class:
-
-```css
-.is-hidden {
-  display: none;
-}
-```
-
----
-
-## Increase the count
-
-```js
-if (shouldShow) {
-  visibleCount = visibleCount + 1;
-}
-```
-
-An `if` statement runs code only when its condition is true.
-
-When the card should be visible, JavaScript increases the visible count by one.
-
-If three cards match the filters, the final value becomes:
-
-```js
-visibleCount = 3;
-```
-
----
-
-## Update the status message
-
-```js
-status.textContent = visibleCount + " activities found";
-```
-
-This replaces the text inside this element:
-
-```html
-<p id="status" class="status">6 activities found</p>
-```
-
-If two activities are visible, the page shows:
-
-```text
-2 activities found
-```
-
-Use `textContent` for plain text messages.
-
----
-
-# Part 7: Respond to User Actions
-
-## Step 6: Listen for Search
-
-Add this code below `filterActivities()`.
-
-```js
-form.addEventListener("submit", function (event) {
-  event.preventDefault();
-
-  const query = keywordInput.value.trim();
-  const category = categorySelect.value;
-
-  filterActivities(query, category);
-});
-```
-
----
-
-## What is an event?
-
-An event is something that happens in the browser.
-
-Examples include:
-
-- Clicking a button.
-- Typing in a text field.
-- Selecting a new dropdown option.
-- Submitting a form.
-- Pressing a key.
-
-This line means:
-
-```js
-form.addEventListener("submit", function (event) {
-```
-
-> Wait for the user to submit the form. Then run the function.
-
----
-
-## Why use `preventDefault()`?
-
-A form normally reloads the page when it is submitted.
-
-```js
-event.preventDefault();
-```
-
-stops the normal reload behaviour.
-
-This allows JavaScript to filter activity cards without leaving or refreshing the page.
-
----
-
-## Read the user input
-
-```js
-const query = keywordInput.value.trim();
-```
-
-- `.value` reads what the user typed.
-- `.trim()` removes spaces at the beginning and end.
-
-For example:
-
-```text
-   coding   
-```
-
-becomes:
-
-```text
-coding
-```
-
-Read the selected dropdown value using:
-
-```js
-const category = categorySelect.value;
-```
-
-If the user chooses Technology, JavaScript reads:
-
-```text
-technology
-```
-
-Finally, send both values to the shared filter function:
-
-```js
-filterActivities(query, category);
-```
-
----
-
-## Step 7: Listen for category changes
-
-Add this code below the form event listener.
-
-```js
-categorySelect.addEventListener("change", function () {
-  const query = keywordInput.value.trim();
-  const category = categorySelect.value;
-
-  filterActivities(query, category);
-});
-```
-
-The `change` event happens when the user chooses a different option from the dropdown menu.
-
-This listener:
-
-1. Reads the current keyword.
-2. Reads the newly selected category.
-3. Runs the same `filterActivities()` function.
-
-The main filtering rules are written only once inside the shared function.
-
----
-
-## Step 8: Listen for Clear button clicks
-
-Add this code below the category event listener.
-
-```js
-clearButton.addEventListener("click", function () {
-  keywordInput.value = "";
-  categorySelect.value = "all";
-
-  filterActivities("", "all");
-});
-```
-
-The `click` event runs when the user clicks the Clear button.
-
-This code:
-
-1. Sets the text input to an empty string.
-2. Changes the dropdown back to `all`.
-3. Runs the filter again.
-4. Shows every activity card.
-
----
-
-# Part 8: Completed `app.js`
-
-Your final `app.js` should look like this:
-
-```js
-const form = document.querySelector("#search-form");
-const keywordInput = document.querySelector("#keyword");
-const categorySelect = document.querySelector("#category");
-const clearButton = document.querySelector("#clear-button");
-const status = document.querySelector("#status");
-
-const cards = document.querySelectorAll(".activity-card");
-
-function filterActivities(query, category) {
-  let visibleCount = 0;
-
-  cards.forEach(function (card) {
-    const cardText = card.textContent.toLowerCase();
-
-    const matchesKeyword = cardText.includes(query.toLowerCase());
-
-    const matchesCategory =
-      category === "all" || card.classList.contains(category);
-
-    const shouldShow = matchesKeyword && matchesCategory;
-
-    card.classList.toggle("is-hidden", !shouldShow);
-
-    if (shouldShow) {
-      visibleCount = visibleCount + 1;
-    }
-  });
-
-  status.textContent = visibleCount + " activities found";
-}
-
-form.addEventListener("submit", function (event) {
-  event.preventDefault();
-
-  const query = keywordInput.value.trim();
-  const category = categorySelect.value;
-
-  filterActivities(query, category);
-});
-
-categorySelect.addEventListener("change", function () {
-  const query = keywordInput.value.trim();
-  const category = categorySelect.value;
-
-  filterActivities(query, category);
-});
-
-clearButton.addEventListener("click", function () {
-  keywordInput.value = "";
-  categorySelect.value = "all";
-
-  filterActivities("", "all");
-});
-```
-
----
-
-# Part 9: Test Your Work
-
-Test one case at a time.
-
-| Test | Action | Expected result |
-|---|---|---|
-| Show all activities | Leave the text field empty and select All categories | All six activity cards appear |
-| Keyword search | Type `coding`, then click Search | Only Coding Workshop appears |
-| No result | Type `swimming`, then click Search | No cards appear and the status says `0 activities found` |
-| Category filter | Select Sports | Basketball Club and Badminton Training appear |
-| Combined filter | Type `robot`, select Technology, then click Search | Only Robotics Challenge appears |
-| Reset filters | Click Clear | All six cards appear again |
-
----
-
-# Part 10: Debugging Checklist
-
-If your work does not behave as expected, debug in this order.
-
-## 1. Select
-
-Check whether JavaScript found the HTML elements.
-
-```js
-console.log(keywordInput);
-console.log(categorySelect);
-console.log(cards.length);
-```
-
-- If an element is `null`, check the HTML `id` and JavaScript selector.
-- If `cards.length` is `0`, check that every card has `class="activity-card"`.
-
-## 2. Listen
-
-Check whether an event happens.
+## 2. Verify the event listener
 
 ```js
 clearButton.addEventListener("click", function () {
@@ -1053,22 +515,18 @@ clearButton.addEventListener("click", function () {
 });
 ```
 
-Click the Clear button and check the Console.
+Click the button and confirm the message appears in the browser Console.
 
-## 3. Read
-
-Check the values JavaScript reads.
+## 3. Verify input values
 
 ```js
 console.log(query);
 console.log(category);
 ```
 
-Make sure they match the user’s input and selected option.
+Confirm that JavaScript reads the expected keyword and selected category.
 
-## 4. Decide
-
-Check the filtering conditions.
+## 4. Verify the decision
 
 ```js
 console.log(matchesKeyword);
@@ -1076,31 +534,29 @@ console.log(matchesCategory);
 console.log(shouldShow);
 ```
 
-## 5. Update
+Check whether the Boolean values reflect the current card and filter choices.
 
-Inspect a hidden activity card in the browser.
+## 5. Verify the update
 
-It should contain the class:
+Inspect a hidden card in Developer Tools. It should have the `is-hidden` class.
 
 ```html
-is-hidden
+<article class="activity-card sports is-hidden">
 ```
 
-## 6. Check
+## 6. Verify the visible result
 
-Count the visible activity cards and compare the result with the status message.
-
-> Start at the first step that does not work. Fix that step before changing later code.
+Count the displayed cards and compare the total with the status message.
 
 ---
 
-# Optional Challenges
+# Extension Tasks
 
-Complete these only after all required tests work.
+Complete these only after the core requirements work correctly.
 
-## Challenge 1: Live filtering
+## Live Search
 
-Filter activities as the user types.
+Filter the activities as the user types.
 
 ```js
 keywordInput.addEventListener("input", function () {
@@ -1111,13 +567,9 @@ keywordInput.addEventListener("input", function () {
 });
 ```
 
-The `input` event runs whenever the text changes.
+## Clear Using Escape
 
----
-
-## Challenge 2: Press Escape to clear filters
-
-Add this code:
+Clear all filters when the user presses the Escape key.
 
 ```js
 document.addEventListener("keydown", function (event) {
@@ -1130,46 +582,24 @@ document.addEventListener("keydown", function (event) {
 });
 ```
 
-The `keydown` event runs when a key is pressed.
+## Add an Activity
 
-The condition checks whether the key is `Escape`.
+Create and append an additional activity card using:
 
----
-
-## Challenge 3: Add another activity card
-
-Add a new activity card manually in `index.html`.
-
-Use one of the existing categories:
-
-```html
-<article class="activity-card technology">
-  <h2>Web Design Club</h2>
-  <p>Learn how to design and improve webpages.</p>
-</article>
-```
-
-Then update the starting status message in the HTML from:
-
-```html
-<p id="status" class="status">6 activities found</p>
-```
-
-to:
-
-```html
-<p id="status" class="status">7 activities found</p>
-```
+- `document.createElement()`
+- `textContent`
+- `classList.add()`
+- `append()`
 
 ---
 
-# Reflection
+# Reflection Questions
 
-After completing the practical, explain the following in your own words:
+After completing the practical, answer the following questions in your own words:
 
-1. Why does JavaScript use `querySelectorAll(".activity-card")` instead of `querySelector(".activity-card")`?
-2. Why does the code use `forEach()`?
-3. What is the difference between `&&` and `||` in the filter function?
-4. Why does adding the `is-hidden` class make a card disappear?
-5. Why does the form need `event.preventDefault()`?
-6. When should an interface use `input`, `change`, `submit`, or `click`?
+1. Why is `querySelectorAll(".activity-card")` used instead of `querySelector(".activity-card")`?
+2. Why is `forEach()` needed when filtering activities?
+3. What is the difference between the `&&` and `||` operators?
+4. Why does `classList.toggle("is-hidden", !shouldShow)` hide non-matching cards?
+5. Why is `event.preventDefault()` needed for the form submission?
+6. Which event would you choose for live filtering, and why?
